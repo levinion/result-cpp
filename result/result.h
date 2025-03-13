@@ -9,8 +9,8 @@ class Result {
   std::expected<T, E> value;
 
 public:
-  void unwrap();
-  void expected(std::string message);
+  T unwrap();
+  T expected(std::string message);
   static Result<T, E> ok(T value);
   static Result<T, E> err(E err);
   bool has_value();
@@ -49,7 +49,7 @@ template<typename E>
 Result<void, E> err(E error);
 
 template<typename T, typename E>
-void Result<T, E>::unwrap() {
+T Result<T, E>::unwrap() {
   if (!this->value.has_value()) {
     std::cout << this->value.value() << std::endl;
     exit(1);
@@ -57,7 +57,7 @@ void Result<T, E>::unwrap() {
 }
 
 template<typename T, typename E>
-void Result<T, E>::expected(std::string message) {
+T Result<T, E>::expected(std::string message) {
   if (!this->value.has_value()) {
     std::cout << this->value.error() << std::endl;
     exit(1);
